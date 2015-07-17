@@ -1,0 +1,22 @@
+#loading.
+  <script>
+    parent.$("iframe#content-frame").height($(window).height());
+  </script>
+  <div class="modal fade" data-show="true" data-backdrop="false">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Loading</h4>
+        </div>
+        <div class="modal-body">
+          <br>
+          <br>
+          <br>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <script>
+    $("#loading .modal").modal();
+    new Spinner({color:'#000', lines: 12}).spin($("#loading .modal-body")[0]);
+  </script>

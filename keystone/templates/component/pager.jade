@@ -1,0 +1,14 @@
+nav.text-center
+  ul.pagination
+    li
+      a(href="#{items.previous ? '?type=' + template.path + '&page=' + items.previous : '#'}") &laquo;
+    - for (var i = 0; i < items.pages.length; i++){
+      if items.currentPage == i + 1
+          li.active
+            a(href="?type=#{template.path}&page=#{items.pages[i]}") #{items.pages[i]}
+      else
+          li
+            a(href="?type=#{template.path}&page=#{items.pages[i]}") #{items.pages[i]}
+    -}
+    li
+      a(href="#{items.next ? '?type=' + template.path + '&page=' + items.next : '#'}") &raquo;

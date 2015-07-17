@@ -1,0 +1,62 @@
+extends ../layout/base
+include ../mixins/rows
+include ../mixins/pagination
+block content
+	.panel.panel-default
+		.panel-heading #{template.path + ' list'}
+		.panel-body
+			.page-header
+				h1 #{category.name}
+				.text-right
+					label total #{items.total} items
+				div
+					if !template.get('nocreate')
+						.create-item
+							if template.get('autocreate')
+								.toolbar
+									a(href='?new' + csrf_query).btn.btn-default.btn-create.btn-create-item
+									span.ion-plus-round
+										|  Create #{template.singular}
+							else
+								.toolbar
+									#list-view
+										
+			#msg
+			include ../component/table_toolbar
+			table#table
+			include ../component/pager
+
+block js
+	script(src='/keystone/js/views/list.js')
+	script(src='/keystone/js/lib/browserified/querystring.js')
+	script(src='/keystone/js/lib/browserified/queryfilter.js')
+	script(src='/keystone/js/sitecore/bootstrap-table.min.js')
+	script.
+		Keystone.list = !{JSON.stringify(list.getOptions())};
+		Keystone.template = !{JSON.stringify(template.getOptions())};
+		Keystone.category_id = "#{category.id}";
+		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+		//Support for the POST-based create process
+		Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};
+		Keystone.createFormData = !{JSON.stringify(submitted)};
+		Keystone.createFormErrors = !{JSON.stringify(createErrors || null)};
+		Keystone.template.cols = !{JSON.stringify(colPaths)};
+		Keystone.template.perPage = !{ Number(template.perPage) || 50 };
+		Keystone.items = !{ JSON.stringify(items.results) };
+		Keystone.search = "#{search}";
+		Keystone.filters = !{ JSON.stringify(filters) };
+		Keystone.sort = "#{sort.by}";
+		Keystone.query = "#{query}";
+		Keystone.csrf_query = "!{csrf_query}";
+
+		var columns = !{JSON.stringify(columns)};
+	script(src='/keystone/js/packages.js')
+	script(src='/keystone/js/fields.js')
+	script(src='/keystone/js/list.js')
+	script(src='/keystone/js/lib/underscore/underscore-min.js')
+	script(src='/keystone/js/lib/moment/moment-1.7.2.min.js')
+	script(src='/keystone/js/sitecore/table_list_handle.js')
+	script(src='/keystone/js/sitecore/inner.js')
+	
+block	css
+	link(rel="stylesheet", href='/keystone/styles/sitecore/bootstrap-table.min.css')

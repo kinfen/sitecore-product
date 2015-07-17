@@ -1,0 +1,46 @@
+extends ../layout/sitecore_template
+
+block content
+    .container-fluid
+      .row
+        .col-sm-3
+          #treeview1 
+        .col-sm-9
+          iframe(id="content-frame" frameborder="0" src="/ksitecore/welcome")
+    .footer
+      .container
+        p.text-muted Copyright @ KStudio.
+    #item-view-modal
+    //
+      Bootstrap core JavaScript
+      ==================================================
+    // Placed at the end of the document so the pages load faster
+append js
+    script(src='/keystone/js/packages.js')
+    script(type='text/javascript').
+      var menuData = !{items};
+      var treeview_tag = isMobileMode() ? "#tree-view0" : "#treeview1";
+      var tree_props = isMobileMode()?{
+                          color: "#ffffff",
+                          backColor:"#333333",
+                          selectedColor:"#333333",
+                          selectedBackColor:"#ffffff",
+                          showBorder : false
+                        }
+                        :{
+                          selectedColor:"#ffffff",
+                          selectedBackColor:"#333333"
+                        };
+      var tree_obj = {
+        data: menuData,
+        levels:0,
+        onNodeSelected: function(event, node) {
+            if (!leftMenuFold)
+            {
+              toggleLeftMenu();
+            }
+            $("#content-frame").attr("src", "/ksitecore/#{list.path}/list/" + node._id + "?type=" + node.template);
+          }
+      };
+      _.extend(tree_obj, tree_props);
+      $(treeview_tag).treeview(tree_obj);

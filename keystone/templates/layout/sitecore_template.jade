@@ -1,0 +1,39 @@
+doctype
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')   
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='') 
+    link(rel='icon', href='/favicon.ico')   
+    title Starter Template for Bootstrap
+    // Bootstrap core CSS
+    //- Keystone Stylesheet
+    link(rel="stylesheet", href="/keystone/styles/keystone.min.css")
+    link(rel="stylesheet", href="/keystone/styles/ladda-themeless.min.css")
+    link(href='/keystone/styles/bootstrap.css', rel='stylesheet')  
+    link(href='/keystone/styles/sitecore/bootstrap-treeview.min.css', rel='stylesheet')
+    link(href='/keystone/styles/sitecore/base.css', rel='stylesheet')
+    script(src='/keystone/js/sitecore/spin.min.js')
+    script(src='/keystone/js/sitecore/ladda/ladda.min.js')
+
+  body
+    
+    #auto
+        #menu-content.pull-left
+            #tree-view0
+        #site-content.pull-right
+            .static-content
+                include ../component/nav
+                block content
+                script(src='/keystone/js/sitecore/jquery-2.1.3.min.js')
+                script(src='/keystone/js/sitecore/bootstrap.min.js')
+                script(src='/keystone/js/lib/underscore/underscore-min.js')
+                script(src='/keystone/js/sitecore/bootstrap-treeview.min.js')
+                script(src='/keystone/js/sitecore/jquery.transit.js')
+                script(src='/keystone/js/sitecore/base.js')
+                
+                block js
+
+

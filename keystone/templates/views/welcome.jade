@@ -1,0 +1,30 @@
+extends ../layout/base
+
+block content
+  .panel.panel-default
+    .panel-body
+      .page-header
+        h1 Welcome to KSiteCore
+        if !list.get('nocreate') && item.total == 0
+          .create-item
+           #list-view
+block js
+ script(src='/keystone/js/views/list.js')
+ script(src='/keystone/js/lib/browserified/querystring.js')
+ script(src='/keystone/js/lib/browserified/queryfilter.js')
+ script.
+    Keystone.list = !{JSON.stringify(list.getOptions())};
+    Keystone.sublist = "#{sublisttype.path}";
+    Keystone.sublist_id = "#{item.id}";
+    Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+    //Support for the POST-based create process
+    Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};
+    Keystone.createFormData = !{JSON.stringify(submitted)};
+    Keystone.createFormErrors = !{JSON.stringify(createErrors || null)};
+    Keystone.query = "#{query}";
+    Keystone.csrf_query = "!{csrf_query}";
+    parent.$("iframe#content-frame").height($(parent.window).height());
+ script(src='/keystone/js/packages.js')
+ script(src='/keystone/js/fields.js')
+ script(src='/keystone/js/list.js')
+ script(src='/keystone/js/sitecore/inner.js')

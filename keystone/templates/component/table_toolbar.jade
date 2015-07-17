@@ -1,0 +1,14 @@
+#tool-bar
+  .action-sheet.dropdown.btn-group(title="Actions")
+    button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+      span.glyphicon.glyphicon-th-list
+      span.caret
+    ul.dropdown-menu(role="menu")
+      li.edit.disabled
+        a(type="button")
+          span.glyphicon.glyphicon-edit
+          label Edit
+      li.delete 
+        a(type="button")
+          span.glyphicon.glyphicon-trash
+          label Remove

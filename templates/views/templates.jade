@@ -1,0 +1,115 @@
+extends ../layouts/template
+
+block content
+  .container:.row:.col-xs-12
+    .panel.panel-default
+      .panel-heading #{list.path + ' list'}
+      .panel-body
+        .page-header
+          h1 #{item.name}
+          .text-right 
+            label total #{sublist.total} items
+        .tableBar
+          if !list.get('nocreate')
+            .create-item
+              if list.get('autocreate')
+                .toolbar
+                  a(href='?new' + csrf_query).btn.btn-default.btn-create.btn-create-item
+                    span.ion-plus-round
+                    |  Create #{list.singular}
+              else
+                form(method='post')
+                  input(type='hidden', name='action', value='create')
+                  input(type='hidden', name=csrf_token_key, value=csrf_token_value)
+                  input(type='hidden', name='parent', value='#{item.id}')
+                  .form
+                    h4 New #{list.singular}
+                    if list.nameIsInitial
+                      if list.nameField.type == 'name'
+                        .field.item-name: .col-sm-12: input(type='text', name=list.nameField.paths.full, value=submitted[list.nameField.paths.full], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+                        if list.nameField.note
+                          .field-note !{list.nameField.note}
+                      else if list.nameField.type == 'text'
+                        .field.item-name: .col-sm-12: input(type='text', name=list.nameField.path, value=submitted[list.nameField.path], placeholder=list.singular + ' ' + list.nameField.label.toLowerCase()).form-control.input-lg
+                        if list.nameField.note
+                          .field-note !{list.nameField.note}
+                      else
+                        .alert.alert-danger Unsupported field type (#{list.nameField.type}) for item name (#{list.nameField.path}).
+                    
+                    each field in list.initialFields
+                      != field.render('initial', submitted)
+                  
+                  .toolbar
+                    .toolbar-create
+                      button(type='submit').btn.btn-default.btn-create Create
+                      button(type='button').btn.btn-link.btn-cancel.btn-cancel-create-item cancel
+                    .toolbar-default.row
+                      .col-xs-6
+                        button(type='button', class=(showCreateForm ? 'autoclick' : null)).btn.btn-default.btn-create.btn-create-item
+                          span.glyphicon.glyphicon-plus
+                          |  Create #{sublisttype}
+          br
+        .archive-list   
+          table.table.table-striped.table-hover.category-table
+            tr
+              td.col-xs-1 #
+              td.col-xs-8.category-title 标题
+              td.col-xs-2 发布日期
+              td.col-xs-1 操作
+            - var i = 0;
+            each item in sublist.results
+              tr
+                td.col-xs-1 #{++i}
+                td.col-xs-8.category-title
+                  a(href="#") #{item.name}
+                td.col-xs-2 #{item.createAt}
+                td.col-xs-1 
+                  a(href="/ksitecore/#{list.path}/item/#{item.id}").glyphicon.glyphicon-cog
+                  span &nbsp; 
+                  a(href="#").glyphicon.glyphicon-remove
+          nav.text-center
+            ul.pagination
+              li
+                a(href="#") &laquo;
+              li.active
+                a(href="#") 1
+              li
+                a(href="#") 2
+              li
+                a(href="#") 3
+              li
+                a(href="#") 4
+              li
+                a(href="#") &raquo;
+        .no-list
+          h3 
+            span.label.label-primary 此栏目还没有内容
+      
+
+  .footer
+    .container
+      p.text-muted Copyright @ KStudio.
+
+block js
+  if list.fieldTypes.location
+    script(src="/keystone/js/common/ui-location.js")
+  if list.fieldTypes.markdown
+    script(src='/keystone/js/lib/marked/marked.js')
+    script(src='/keystone/js/lib/bootstrap-markdown/js/bootstrap-markdown.js')
+    script(src="/keystone/js/common/ui-markdown.js")
+  if list.fieldTypes.wysiwyg
+    script(src='/keystone/js/lib/tinymce/tinymce.min.js')
+    script(src='/keystone/js/lib/tinymce/jquery.tinymce.min.js')
+    script(src="/keystone/js/common/ui-wysiwyg.js")
+  script(src='/keystone/js/views/list.js')
+  script(src='/keystone/js/lib/browserified/querystring.js')
+  script(src='/keystone/js/lib/browserified/queryfilter.js')
+  script.
+    Keystone.list = { path: "#{list.path}", label: "#{list.label}", singular: "#{list.singular}", plural: "#{list.plural}", cols: !{JSON.stringify(colPaths)}, perPage: !{ Number(list.perPage) || 50 } };
+    Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
+    Keystone.items = !{ JSON.stringify(sublist.results) };
+    Keystone.search = "#{search}";
+    Keystone.filters = !{ JSON.stringify(filters) };
+    Keystone.sort = "#{sort.by}";
+    Keystone.query = "#{query}";
+    Keystone.csrf_query = "!{csrf_query}"; 
