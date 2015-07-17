@@ -59,18 +59,11 @@ KSiteCore.prototype.init = function()
 	// Setup common locals for your templates. The following are required for the
 	// bundled templates and layouts. Any runtime locals (that should be set uniquely
 	// for each request) should be added to ./routes/middleware.js
-
-	keystone.set('locals', {
-		_: require('underscore'),
-		env: keystone.get('env'),
-		utils: keystone.utils,
-		editable: keystone.content.editable
-	});
 	// Load your project's Routes
 	keystone.set('routes', require('./routes'));
 
 
-	var email_hostname = process.env.EMAIL_HOSTNAME || 'localhost:3000';
+	var email_hostname = process.env.EMAIL_HOSTNAME;
 
 
 	// Load your project's email test routes
@@ -90,7 +83,6 @@ KSiteCore.prototype.start = function()
 var ksitecore = new KSiteCore();
 ksitecore.init();
 ksitecore.start();
-
 module.exports = exports = ksitecore;
 
 
