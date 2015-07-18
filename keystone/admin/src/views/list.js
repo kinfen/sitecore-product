@@ -48,10 +48,9 @@ var View = React.createClass({
 		var subcategory_path = "/ksitecore/" + Keystone.list.path + "/list/" + Keystone.category_id + "?type=" + Keystone.list.path;
 		window.location = subcategory_path;
 	},
-	render: function() {
-		if (Keystone.template.nocreate) return null;
-		
-		
+	
+	renderNormalList:function(){
+
 		if (this.props.isMobileMode)
 		{
 			return (
@@ -97,17 +96,23 @@ var View = React.createClass({
 				</div>
 			);
 		}
+
+	},
+	
+	render: function() {
+		if (Keystone.template.nocreate) return null;
 		
-		return (
-			<div className="create-item row">
-				{this.renderCreateButton()}
-			</div>
-		);
+		if (this.props.welcome)
+		{
+			return this.renderCreateButton()
+		}
+		
+		return this.renderNormalList();
 	}
 	
 });
 
-React.render(<View isMobileMode={parent.isMobileMode()} />, document.getElementById('list-view'));
+React.render(<View isMobileMode={parent.isMobileMode()} welcome={Keystone.welcome} />, document.getElementById('list-view'));
 if (parent.React)
 {
 	var b = parent.React.unmountComponentAtNode(parent.$("#item-view-modal")[0]);

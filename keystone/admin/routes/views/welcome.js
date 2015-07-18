@@ -32,9 +32,10 @@ exports = module.exports = function(req, res) {
 				
 			keystone.render(req, res, 'welcome', _.extend(viewLocals, {
 				list:list,
-				sublisttype:list,
+				template:list,
 				submitted: req.body || {},
-				item: categorys
+				item: categorys,
+				welcome:true
 			}));
 			
 		// });

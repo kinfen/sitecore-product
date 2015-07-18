@@ -14,8 +14,8 @@ block js
  script(src='/keystone/js/lib/browserified/queryfilter.js')
  script.
     Keystone.list = !{JSON.stringify(list.getOptions())};
-    Keystone.sublist = "#{sublisttype.path}";
-    Keystone.sublist_id = "#{item.id}";
+    Keystone.template = !{JSON.stringify(template.getOptions())};
+    Keystone.item_id = "#{item.id}";
     Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
     //Support for the POST-based create process
     Keystone.showCreateForm = !{JSON.stringify(showCreateForm)};
@@ -23,6 +23,7 @@ block js
     Keystone.createFormErrors = !{JSON.stringify(createErrors || null)};
     Keystone.query = "#{query}";
     Keystone.csrf_query = "!{csrf_query}";
+    Keystone.welcome = !{welcome}
     parent.$("iframe#content-frame").height($(parent.window).height());
  script(src='/keystone/js/packages.js')
  script(src='/keystone/js/fields.js')
